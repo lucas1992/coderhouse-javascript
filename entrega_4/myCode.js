@@ -1,23 +1,27 @@
 
 var global_data = {
-    "personal": {};
-    "productos": [];
+    "personal": {},
+    "productos": []
 }
 
 $(window).on('load', function(){
-    request_personal_info();
-    request_data_products();
-    show_cart_info();
+    restart();
 });
 
 $(function () {
 
 });
 
+function restart(){
+    request_personal_info();
+    request_data_products();
+    show_cart_info();
+}
+
 
 function request_personal_info(){
     let nombre = prompt("Ingresa tu nombre!");
-    let apellido = prompt("Ingresa tu Apellido!");
+    let apellido = prompt("Ingresa tu apellido!");
     let edad = prompt("Ingresa tu edad");
 
     global_data.personal["nombre"] = nombre;
@@ -32,7 +36,7 @@ function request_personal_info(){
 }
 
 
-function request_personal_info(){
+function request_data_products(){
     alert("En esta primera etapa, con los conocimientos que adquirimos solo puedo solitarte que ingreses los productos via prompt:");
     alert("A continuacion te solicitare que ingreses 3 productos con el siguiente formato: 'Nombre | precio'");
 
@@ -74,12 +78,12 @@ function add_product(data_string){
 
 function show_cart_info(){
     let total = 0;
-    let msg = "Resumen de compra: \n";
+    let msg = "Resumen de compra para " + global_data.personal.nombre + ": \n";
     for(let i=0; i<global_data.productos.length; i++){
         total += global_data.productos[i]["precio"];
         msg += global_data.productos[i]["text"] + "\n"
     }
-    msg += "-----------------------------------------"
+    msg += "----------------------------------------- \n"
     msg += "Total: $" + total.toString();
     alert(msg);
 }
