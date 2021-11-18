@@ -127,11 +127,13 @@ $(function () {
 
 function restart(){
     request_personal_info();
+    /*
     request_data_products();
     mainController.sort_products(false);
     mainController.show_cart_info();
     find_by_id();
     apply_discounts();
+    */
     //show_cart_info();
 }
 
@@ -148,6 +150,14 @@ function request_personal_info(){
     if(parseInt(edad) < 18) {
         console.log("Recuerda que si eres menor la compra debe estar supervisada por un mayor de edad!.");
     }
+
+    // Agregado entrega 8
+    let div_subtitulo = document.getElementById('subtitulo');
+    let parrafo = document.createElement("p");
+    parrafo.innerHTML = "<h4>¡Hola " + persona.nombre + " " + persona.apellido "!</h4>";
+    parrafo.classList.add('subtitle')
+    div_subtitulo.appendChild(parrafo);
+    console.log(parrafo);
 }
 
 
