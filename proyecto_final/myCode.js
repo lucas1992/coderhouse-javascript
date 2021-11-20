@@ -6,6 +6,7 @@ class MainController{
         this.products_sale = [];
         this.products_stock = [];
         this.total = 0;
+        this.last_index = 0;
     }
     hello_client(){
         console.log(`Hola ${this.client.nombre} ${this.client.apellido} cómo estás?`);
@@ -16,10 +17,11 @@ class MainController{
         this.client = persona;
     }
 
-    add_product(id, i){
+    add_product(id){
         id = parseInt(id);
         const product_clone = Object.assign(Object.create(this.products_stock[id]), this.products_stock[id]);
-        product_clone.id = i;
+        this.last_index = this.last_index + 1;
+        product_clone.id = this.last_index;
         this.products.push(product_clone);
         this.precios.push(product_clone.precio);
         this.total += product_clone.precio;
@@ -84,22 +86,71 @@ class MainController{
         }
     }
 
-    autoload_products(){
+    load_products(productos){
         this.products_stock = [];
-        let products_elements = document.getElementsByClassName("probootstrap-text");
+
+        let products_elements = document.getElementById("listadoProductos");
         let i = 0;
-        for (const product_text of products_elements){
-            let aux = product_text.innerHTML;
-            aux = aux.replace(/[\n\r]/g,'').trim();
+        for (const prod of productos){
+            let aux = prod["text"].replace(/[\n\r]/g,'').trim();
             aux = aux.replace('<h3>','');
             aux = aux.replace('</h3>','');
             aux = aux.split(": $");
             let product = new Product(aux[0] + "|" + aux[1], i);
-            if(product.check_format()){
-                this.products_stock.push(product);
+            if(!(product.check_format())){
+                continue;
             }
-            i += 1
+
+            this.products_stock.push(product);
+
+            // Lo cargo en el HTML
+            let prod_div_1 = document.createElement("div");
+            prod_div_1.classList.add('col-lg-3');
+            prod_div_1.classList.add('col-md-6');
+            prod_div_1.classList.add('probootstrap-animate');
+            prod_div_1.classList.add('mb-3');
+
+
+            let prod_a = document.createElement("a");
+            prod_a.classList.add('probootstrap-thumbnail');
+            prod_a.setAttribute("href", "#");
+
+            let prod_img = document.createElement("img");
+            prod_img.classList.add('img-fluid');
+            prod_img.classList.add('img-product');
+            prod_img.setAttribute("src", prod["img_src"]);
+
+            let prod_div_2 = document.createElement("div");
+            prod_div_2.classList.add('probootstrap-text');
+
+            let prod_h3 = document.createElement("h3");
+            prod_h3.innerHTML = prod["text"];
+
+            let prod_id = document.createElement("label");
+            prod_id.style.display = 'none';
+            prod_id.innerHTML = i.toString();
+
+            prod_div_2.appendChild(prod_h3);
+            prod_a.appendChild(prod_img);
+            prod_a.appendChild(prod_div_2);
+            prod_a.appendChild(prod_id);
+            prod_div_1.appendChild(prod_a);
+            products_elements.appendChild(prod_div_1);
+
+            i += 1;
+
+
         }
+
+        main_restart();
+
+
+        let elements = document.getElementsByClassName("img-product");
+        for (const element of elements){
+            //element.addEventListener("click", click_product);
+            element.onclick = () => {click_product(event)};
+        }
+
     }
 
     update_total_html(){
@@ -154,7 +205,10 @@ var mainController = new MainController();
 
 
 $(window).on('load', function(){
+    let element = document.getElementById('head_main');
+    element.onclick = () => {handleKeyPress(event)};
     restart();
+
 });
 
 $(function () {
@@ -162,14 +216,17 @@ $(function () {
 });
 
 function restart(){
+
+    productos = request_data();
+    mainController.load_products(productos);
     request_personal_info();
-    // Agregado entrega 8: lee automaticamente los productos cargados en el html.
-    mainController.autoload_products();
+    /*
     request_data_products();
     mainController.sort_products(false);
     mainController.show_cart_info();
     find_by_id();
     apply_discounts();
+    */
     //show_cart_info();
 }
 
@@ -234,6 +291,36 @@ function apply_discounts(){
     mainController.show_cart_info_discounts();
 }
 
+function request_data(){
 
+    let array_productos = [
+        {"img_src": "assets/images/producto_1.jpg", "text": "Reloj: $4500"},
+        {"img_src": "assets/images/producto_2.jpg", "text": "Auriculares: $1500"},
+        {"img_src": "assets/images/producto_3.jpg", "text": "Zapatilla: $11000"},
+        {"img_src": "assets/images/producto_4.jpg", "text": "Zapatilla: $9999"},
+        {"img_src": "assets/images/producto_5.jpg", "text": "Anteojos: $5000"},
+        {"img_src": "assets/images/producto_6.jpg", "text": "Cámara retro: $7800"},
+        {"img_src": "assets/images/producto_7.jpg", "text": "Banco vintage: $4300"},
+        {"img_src": "assets/images/producto_8.jpg", "text": "Cactus deco: $1800"},
+        {"img_src": "assets/images/producto_9.jpg", "text": "Mochila: $5200"},
+        {"img_src": "assets/images/producto_10.jpg", "text": "Parlante: $8000"},
+        {"img_src": "assets/images/producto_11.jpg", "text": "Smartwatch: $15999"},
+        {"img_src": "assets/images/producto_12.jpg", "text": "Zapato: $11499"}
+    ];
 
+    return array_productos;
+}
 
+function click_product(event){
+
+    let parent = event.target.parentElement
+    id_prod = parent.children[2].innerHTML;
+    mainController.add_product(id_prod);
+}
+
+function handleKeyPress(e){
+     var key=e.keyCode || e.which;
+      if (key==13){
+         alert("Enter!!");
+      }
+}
