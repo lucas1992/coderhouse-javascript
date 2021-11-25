@@ -208,11 +208,19 @@ $(window).on('load', function(){
     let element = document.getElementById('head_main');
     element.onclick = () => {handleKeyPress(event)};
     restart();
-
 });
 
 $(function () {
+    $('.modal').addClass('open');
 
+    if ($( '.modal' ).hasClass( 'open' )) {
+      $('.container' ).addClass( 'blur');
+    }
+
+    $( '.close' ).click(function() {
+      $('.modal' ).removeClass('open');
+      $('.container' ).removeClass('blur');
+    });
 });
 
 function restart(){
