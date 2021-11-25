@@ -204,30 +204,31 @@ class Product{
 var mainController = new MainController();
 
 
-$(window).on('load', function(){
-    let element = document.getElementById('head_main');
-    element.onclick = () => {handleKeyPress(event)};
-    restart();
-});
-
 $(function () {
-    $('.modal').addClass('open');
 
     if ($( '.modal' ).hasClass( 'open' )) {
       $('.container' ).addClass( 'blur');
     }
 
     $( '.close' ).click(function() {
-      $('.modal' ).removeClass('open');
-      $('.container' ).removeClass('blur');
+        closeModal();
     });
+
+    $( '#buttonCerrar' ).click(function() {
+        closeModal();
+    });
+
+    $( '#buttonGuardarDatos' ).click(function() {
+        request_personal_info();
+    });
+
 });
 
 function restart(){
-
     productos = request_data();
     mainController.load_products(productos);
-    request_personal_info();
+    openModal();
+    //request_personal_info();
     /*
     request_data_products();
     mainController.sort_products(false);
@@ -238,11 +239,14 @@ function restart(){
     //show_cart_info();
 }
 
+$(window).on('load', function(){
+    restart();
+});
 
 function request_personal_info(){
-    let nombre = prompt("Ingresa tu nombre!");
-    let apellido = prompt("Ingresa tu apellido!");
-    let edad = prompt("Ingresa tu edad");
+    let nombre = document.getElementById('nombre').value;
+    let apellido = document.getElementById('apellido').value;
+    let edad = document.getElementById('edad').value;
 
     const persona = new Persona(nombre, apellido, edad);
     mainController.update_client(persona);
@@ -257,11 +261,12 @@ function request_personal_info(){
     let parrafo = document.createElement("p");
     parrafo.innerHTML = `<h4>¡Hola ${persona.nombre} ${persona.apellido}!</h4>
                          <br>
-                         <h4>¡Hola ${persona.nombre} ${persona.apellido}!</h4>`;
+                         <h4></h4>`;
     parrafo.classList.add('subtitle');
     div_subtitulo.appendChild(parrafo);
     console.log(parrafo);
 
+    closeModal();
 
 }
 
@@ -331,4 +336,13 @@ function handleKeyPress(e){
       if (key==13){
          alert("Enter!!");
       }
+}
+
+function openModal(){
+    $('.modal').addClass('open');
+}
+
+function closeModal(){
+      $('.modal' ).removeClass('open');
+      $('.container' ).removeClass('blur');
 }

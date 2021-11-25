@@ -160,21 +160,44 @@
           </div>
         </footer>
 
-        <div class="popup-overlay">
-            <!--Creates the popup content-->
-             <div class="popup-content">
-                <h2>Pop-Up</h2>
-                <p> This is an example pop-up that you can make using jQuery.</p>
-               <!--popup's close button-->
-                <button class="close">Close</button>
-            </div>
-        </div>
-
         <div class="modal" id="modalPersonalInfo">
           <div class="content">
             <div class="close"></div>
-            <h1> Hello, World!</h1>
-            <p> ModalContent Here </p>
+              <div class="row">
+                  <div class="col-md-12">
+                      <h1> Ingresa tus datos!</h1>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-6">
+                      <span>Nombre</span>
+                      <input type="text" id="nombre" class="form-control" placeholder="Ingresa tu nombre">
+                  </div>
+                  <div class="col-md-6">
+                      <span>Apellido</span>
+                      <input type="text" id="apellido" class="form-control" placeholder="Ingresa tu apellido">
+                  </div>
+              </div>
+              <br>
+              <div class="row">
+                  <div class="col-md-6">
+                      <span>Edad</span>
+                      <input type="text" id="edad" class="form-control" placeholder="Ingresa tu edad">
+                  </div>
+              </div>
+              <br>
+              <div class="row">
+                  <div class="col-md-4">
+                    <button type="button" id="buttonGuardarDatos">
+                      <span>Guardar</span>
+                    </button>
+                  </div>
+                  <div class="col-md-4">
+                        <button type="button" id="buttonCerrar">
+                          <span>Cerrar</span>
+                        </button>
+                  </div>
+              </div>
           </div>
         </div>
 
