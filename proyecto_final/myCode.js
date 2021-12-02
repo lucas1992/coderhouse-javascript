@@ -145,18 +145,16 @@ class MainController{
         main_restart();
 
 
-        let elements = document.getElementsByClassName("img-product");
-        for (const element of elements){
-            //element.addEventListener("click", click_product);
-            element.onclick = () => {click_product(event)};
-        }
+        $( '.img-product' ).click(function() {
+            click_product(event);
+        });
+
 
     }
 
     update_total_html(){
-        // Agregado entrega 8
-        let div_subtitulo = document.getElementById('subtitulo');
-        div_subtitulo.children[0].children[2].innerHTML = `<h4>Debes $ ${this.total}!</h4>`;
+        // Agregado entrega 12
+        $('#textDebesId').text("Debes $" + this.total + "!");
     }
 
 }
@@ -261,11 +259,10 @@ function request_personal_info(){
     let parrafo = document.createElement("p");
     parrafo.innerHTML = `<h4>¡Hola ${persona.nombre} ${persona.apellido}!</h4>
                          <br>
-                         <h4></h4>`;
+                         <h4 id="textDebesId"></h4>`;
     parrafo.classList.add('subtitle');
     div_subtitulo.appendChild(parrafo);
     console.log(parrafo);
-
     closeModal();
 
 }
