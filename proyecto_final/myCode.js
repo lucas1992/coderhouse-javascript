@@ -155,6 +155,13 @@ class MainController{
     update_total_html(){
         // Agregado entrega 12
         $('#textDebesId').text("Debes $" + this.total + "!");
+        $('#textDebesId').css("border", "2px solid")
+                         .slideDown(500)
+                         .delay(2000)
+                         .slideUp(500);
+        setTimeout(function() {
+            $('#textDebesId').css("border", "0px solid");
+        }, 3000);
     }
 
 }
@@ -204,6 +211,12 @@ var mainController = new MainController();
 
 $(function () {
 
+    $( '#user' ).click(function() {
+        restart();
+    });
+    $( '.close' ).click(function() {
+        closeModal();
+    });
     if ($( '.modal' ).hasClass( 'open' )) {
       $('.container' ).addClass( 'blur');
     }
@@ -259,7 +272,7 @@ function request_personal_info(){
     let parrafo = document.createElement("p");
     parrafo.innerHTML = `<h4>¡Hola ${persona.nombre} ${persona.apellido}!</h4>
                          <br>
-                         <h4 id="textDebesId"></h4>`;
+                         <h4 id="textDebesId" style="border-color: red; width: 40%; margin-left: 30%"></h4>`;
     parrafo.classList.add('subtitle');
     div_subtitulo.appendChild(parrafo);
     console.log(parrafo);
@@ -337,9 +350,11 @@ function handleKeyPress(e){
 
 function openModal(){
     $('.modal').addClass('open');
+    $('.modal').fadeIn(1500);
 }
 
 function closeModal(){
       $('.modal' ).removeClass('open');
       $('.container' ).removeClass('blur');
+      $('.modal').fadeOut(1000);
 }
