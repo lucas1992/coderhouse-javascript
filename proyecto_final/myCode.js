@@ -233,6 +233,8 @@ $(function () {
         request_personal_info();
     });
 
+    $('#btnCallAjax').click(call_ajax_static_json);
+
 });
 
 function restart(){
@@ -357,4 +359,14 @@ function closeModal(){
       $('.modal' ).removeClass('open');
       $('.container' ).removeClass('blur');
       $('.modal').fadeOut(1000);
+}
+
+
+function call_ajax_static_json(){
+    let url_json = "https://jsonplaceholder.typicode.com/todos/10"
+    $.getJSON(url_json, function(response, state){
+        if(state === "success"){
+            $("#textAjax").prepend("<br><p>" + response["title"] + "</p>");
+        }
+    });
 }
