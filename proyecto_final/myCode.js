@@ -166,10 +166,47 @@ class MainController{
     }
 
     update_carrito(){
-        let products_elements = document.getElementById("listadoProductosCarrito");
+        $('#listadoProductosCarrito').empty();
         for (const prod of this.products){
+            // Lo cargo en el HTML
+            let prod_div_1 = document.createElement("div");
+            prod_div_1.classList.add('col-md-12');
+            prod_div_1.classList.add('mb-3');
 
+
+            let prod_h3 = document.createElement("h3");
+            let aux_str = "";
+            for (let i=0; i<50-prod["nombre"].length; i++){
+                aux_str += " ."
+            }
+
+            prod_h3.innerHTML = prod["nombre"] + aux_str + " $" + prod["precio"];
+
+            let prod_id = document.createElement("label");
+            prod_id.style.display = 'none';
+            prod_id.innerHTML = prod["id"];
+
+            prod_div_1.appendChild(prod_h3);
+            prod_div_1.appendChild(prod_id);
+            $('#listadoProductosCarrito').append(prod_div_1);
         }
+        let prod_div_1 = document.createElement("div");
+        prod_div_1.classList.add('col-md-12');
+        prod_div_1.classList.add('mb-3');
+
+        let prod_h3 = document.createElement("h3");
+        let aux_str = "";
+        for (let i=0; i<49-"TOTAL:".length; i++){
+            aux_str += " ."
+        }
+
+        prod_h3.innerHTML = "<br>TOTAL:" + aux_str + " $" + this.total.toString();
+
+        prod_div_1.appendChild(prod_h3);
+        $('#listadoProductosCarrito').append(prod_div_1);
+
+
+
     }
 }
 
