@@ -169,26 +169,14 @@ class MainController{
         $('#listadoProductosCarrito').empty();
         for (const prod of this.products){
             // Lo cargo en el HTML
-            let prod_div_1 = document.createElement("div");
-            prod_div_1.classList.add('col-md-12');
-            prod_div_1.classList.add('mb-3');
-
-
-            let prod_h3 = document.createElement("h3");
             let aux_str = "";
             for (let i=0; i<50-prod["nombre"].length; i++){
                 aux_str += " ."
             }
 
-            prod_h3.innerHTML = prod["nombre"] + aux_str + " $" + prod["precio"];
+            let html = $('<div class="col-md-12 mb-3"><h3>' + prod["nombre"] + aux_str + " $" + prod["precio"] + ' <i class="fa fa-trash" aria-hidden="true" onclick="mainController.delete_item(' + prod["id"] + ')""></i></h3></div>')
 
-            let prod_id = document.createElement("label");
-            prod_id.style.display = 'none';
-            prod_id.innerHTML = prod["id"];
-
-            prod_div_1.appendChild(prod_h3);
-            prod_div_1.appendChild(prod_id);
-            $('#listadoProductosCarrito').append(prod_div_1);
+            $('#listadoProductosCarrito').append(html);
         }
         let prod_div_1 = document.createElement("div");
         prod_div_1.classList.add('col-md-12');
@@ -205,8 +193,23 @@ class MainController{
         prod_div_1.appendChild(prod_h3);
         $('#listadoProductosCarrito').append(prod_div_1);
 
+    }
 
+    delete_item(id){
+        console.log(id);
+        let productos = [];
+        for (const prod of this.products){
+            if(prod["id"] == id){
+                this.total -= prod["precio"];
+                continue;
+            }
+            productos.push(prod);
+        }
 
+        this.products = productos;
+
+        this.update_carrito();
+        this.update_total_html();
     }
 }
 
