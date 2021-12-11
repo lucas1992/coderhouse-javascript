@@ -25,6 +25,7 @@ class MainController{
         this.products.push(product_clone);
         this.precios.push(product_clone.precio);
         this.total += product_clone.precio;
+        this.update_carrito();
         this.update_total_html();
     }
 
@@ -164,6 +165,12 @@ class MainController{
         }, 3000);
     }
 
+    update_carrito(){
+        let products_elements = document.getElementById("listadoProductosCarrito");
+        for (const prod of this.products){
+
+        }
+    }
 }
 
 class Persona{
@@ -235,9 +242,16 @@ $(function () {
 
     $('#btnCallAjax').click(call_ajax_static_json);
 
+    $('#carritoLink').click(function() {
+        $('#section-carrito').toggle();
+    });
+
 });
+let already_started = false;
 
 function restart(){
+    $('#section-carrito').toggle();
+    already_started = true;
     productos = request_data();
     mainController.load_products(productos);
     openModal();
@@ -252,8 +266,12 @@ function restart(){
     //show_cart_info();
 }
 
+
+
 $(window).on('load', function(){
-    restart();
+    if(!already_started){
+        restart();
+    }
 });
 
 function request_personal_info(){
@@ -291,9 +309,6 @@ function request_data_products(){
         text_products += `ID: ${product.id.toString()}  -->  ${product.nombre} $ ${product.precio} \n`;
         ids_allowed[product.id.toString()] = "";
     }
-
-    alert(text_products);
-    console.log(text_products);
 
     for(let i=0; i<3; i++){
         let id = prompt("Ingresa el id para el producto " + i.toString() );
