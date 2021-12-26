@@ -611,3 +611,27 @@ a {
 .container.blur {
   filter: blur(5px);
 }
+
+
+
+.badge:after{
+content:attr(value);
+font-size:12px;
+background: red;
+border-radius:50%;
+padding:3px;
+position:relative;
+left:-8px;
+top:-10px;
+opacity:0.9;
+}
+
+.item-white{
+    color: white !important;
+}
+
+.item-icon{
+    margin-left: 2px;
+    font-size: 1.5rem;
+    color: white;
+}

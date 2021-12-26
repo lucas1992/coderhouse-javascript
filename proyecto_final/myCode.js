@@ -155,7 +155,7 @@ class MainController{
 
     update_total_html(){
         // Agregado entrega 12
-        $('#textDebesId').text("Debes $" + this.total + "!");
+        $('#textDebesId').text("Total: $" + this.total + "!");
         $('#textDebesId').css("border", "2px solid")
                          .slideDown(500)
                          .delay(2000)
@@ -163,6 +163,9 @@ class MainController{
         setTimeout(function() {
             $('#textDebesId').css("border", "0px solid");
         }, 3000);
+
+        $('#cartCount')[0].outerHTML = `<i class=\"fa badge" id="cartCount" style="margin-left: 2px; font-size: 1.5rem" value=\"${this.products.length.toString()}\"></i>`;
+
     }
 
     update_carrito(){
